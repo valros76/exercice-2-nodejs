@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rechercher un profil</title>
+</head>
+
+<body>
+  <main class="main-content">
+    <section>
+      <h1>Rechercher un profil par email</h1>
+
+      <form method="POST" id="profileForm">
+        <label for="email">
+          Adresse email du profil
+        </label>
+        <input type="email" placeholder="test@mail.fr" value="webdevoo.pro@gmail.com" name="email" id="email" required>
+        <button type="submit">
+          Rechercher
+        </button>
+      </form>
+
+      <article id="profileContainer">
+        <h2>
+          ⏱️ En attente d'une recherche de profil... ⏱️
+        </h2>
+      </article>
+    </section>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const profileForm = document.querySelector("#profileForm");
+    const profileContainer = document.querySelector("#profileContainer");
+
+    const setProfile = (profile) => {
+      profileContainer.innerHTML = "";
+
+      const title = document.createElement("h2");
+      title.textContent = `Profil de ${profile.name}`;
+      profileContainer.appendChild(title);
+
+      if (profile.email) {
+        const email = document.createElement("p");
+        email.textContent = `Email : ${profile.email}`;
+        profileContainer.appendChild(email);
+      }
+
+      const description = document.createElement("p");
+      description.textContent = `Description : ${profile.description}`;
+      profileContainer.appendChild(description);
+    };
+
+    socket.on("show profile", (profile) => {
+      setProfile(profile);
+    });
+
+    profileForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      // Modèle de recherche classique avec la valeur du champs et une émission de socket
+      // const emailInput = document.querySelector("#email");
+      // socket.emit("show profile", emailInput.value.trim().toLowerCase());
+
+      // Modèle de recherche avec utilisation d'un formData
+      const formData = new FormData(profileForm);
+      // On convertit l'objet formData en un objet JSON simple
+      // Object.fromEntries est une méthode qui permet de récupérer toutes les entrées du formulaire, sous forme clé/valeur pour la transformer en un objet.
+      const formDataObject = Object.fromEntries(formData.entries());
+      socket.emit("show profile", formDataObject);
+
+      profileForm.reset();
+      e.stopPropagation();
+    });
+  </script>
+</body>
+
+</html>
