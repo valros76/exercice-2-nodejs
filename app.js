@@ -93,7 +93,6 @@ io.on("connection", (socket) => {
       };
     }
 
-    console.table(profile);
     socket.emit("show profile", profile);
   });
 
