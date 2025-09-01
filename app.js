@@ -76,7 +76,7 @@ io.on("connection", (socket) => {
     }
 
     let profile = {
-      name: "Profil inconnu",
+      name: `Profil de ${email} inconnu`,
       email: undefined,
       description: "Ce profil n'existe pas dans notre base de données."
     };
