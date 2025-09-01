@@ -10,7 +10,9 @@ const app = express();
 const PORT = process.env.PORT;
 
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  connectionStateRecovery: {}
+});
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
@@ -94,6 +96,8 @@ io.on("connection", (socket) => {
     }
 
     socket.emit("show profile", profile);
+    // Pour propager l'évènement à tous les utilisateurs, utilisez io.emit()
+    // io.emit("show profile", profile);
   });
 
   socket.on("disconnect", () => {
