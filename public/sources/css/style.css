@@ -52,5 +52,5 @@ img{
   width:calc(var(--font-size-base) * 1.5);
   height:calc(var(--font-size-base) * 1.5);
   object-fit:contain;
-  margin-inline:auto;
+  margin-inline:.4rem;
 }

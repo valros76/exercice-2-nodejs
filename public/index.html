@@ -25,11 +25,14 @@
         <button type="submit">
           Rechercher
         </button>
+        <button type="reset">
+          Reset
+        </button>
       </form>
 
       <article id="profileContainer">
         <h2>
-          <img src="./assets/images/loader.gif" alt="loader" class="inline-icon"> En attente d'une recherche de profil...
+          <img src="./assets/images/loader.gif" alt="loader" class="inline-icon">En attente d'une recherche de profil...
         </h2>
       </article>
     </section>
@@ -59,6 +62,21 @@
       profileContainer.appendChild(description);
     };
 
+    const resetForm = () => {
+      profileContainer.innerHTML = "";
+
+      const loader = document.createElement("img");
+      loader.setAttribute("src", "./assets/images/loader.gif");
+      loader.setAttribute("alt", "loader");
+      loader.className = "inline-icon";
+
+      const title = document.createElement("h2");
+      title.appendChild(loader);
+      const titleText = document.createTextNode("En attente d'une recherche de profil...");
+      title.appendChild(titleText);
+      profileContainer.appendChild(title);
+    }
+
     socket.on("show profile", (profile) => {
       setProfile(profile);
     });
@@ -77,6 +95,13 @@
       socket.emit("show profile", formDataObject);
 
       profileForm.reset();
+      e.stopPropagation();
+    });
+
+    profileForm.addEventListener("reset", (e) => {
+      e.preventDefault();
+      profileForm.reset();
+      resetForm();
       e.stopPropagation();
     });
   </script>
