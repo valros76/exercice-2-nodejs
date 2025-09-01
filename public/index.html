@@ -16,7 +16,11 @@
         <label for="email">
           Adresse email du profil
         </label>
-        <input type="email" placeholder="test@mail.fr" value="webdevoo.pro@gmail.com" name="email" id="email" required>
+        <input type="email" placeholder="test@mail.fr" name="email" id="email" list="emails" required>
+        <datalist id="emails">
+          <option value="webdevoo.pro@gmail.com">webdevoo.pro@gmail.com</option>
+          <option value="test@mail.fr">test@mail.fr</option>
+        </datalist>
         <button type="submit">
           Rechercher
         </button>
